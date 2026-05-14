@@ -1,0 +1,12 @@
+#!/bin/bash
+# Simple launcher that should work when double-clicked
+
+# Get script directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$DIR"
+
+# Run the launcher script
+./start_transcription_gui.sh
+
+# Keep window open for a moment to see any errors
+sleep 2

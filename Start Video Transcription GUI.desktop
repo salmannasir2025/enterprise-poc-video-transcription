@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Start Video Transcription GUI
+Comment=Launch the Video Transcription Tool in your browser
+Exec=/bin/bash -c "cd '/home/salman/Documents/Video Materials' && ./start_transcription_gui.sh"
+Icon=video-x-generic
+Terminal=false
+Categories=AudioVideo;Audio;
+StartupNotify=true
+Name[en_US]=Start Video Transcription GUI
+Comment[en_US]=Launch the Video Transcription Tool in your browser
