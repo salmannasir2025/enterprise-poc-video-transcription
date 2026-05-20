@@ -1,5 +1,9 @@
 # 🎬 OmniTranscript Pro: Local Multilingual Video Intelligence Pipeline
 
+<div align="center">
+  <img src="logo.png" alt="Company Logo" width="300"/>
+</div>
+
 **On-Premise. Zero Cloud Leakage. High-Performance Academic & Enterprise Transcription.**
 
 OmniTranscript Pro is an elite, privacy-first speech-to-text proof-of-concept (PoC) designed for modern educators, researchers, academic institutions, and content production teams who process vast libraries of video materials daily. 
@@ -12,12 +16,24 @@ By utilizing local hardware optimization and an asynchronous execution loop, Omn
 
 The system completely isolates raw audio demuxing from the AI computation framework, enabling smooth background worker execution and local server scalability.
 
-```text
-   [ Input Layer ]         --->          [ Core Pipeline Engine ]          --->      [ Multi-Format Serialization ]
-(Local Video File / YouTube URL)          (yt-dlp Streamer + FFmpeg Demux)             (.txt / .srt / .vtt / .md / .json)
-|                                       |                                                |
-v                                       v                                                v
-Handled via Streamlit UX                 Isolated 16kHz Audio Layer                    Primes Searchable Vector Assets
+```mermaid
+graph TD
+    A[PyQt6 UI Panel] -->|Operator Params & Control Signal| B(Voice Orchestration Engine)
+    B -->|Asynchronous Event Loop| C(Live Microphone Input)
+    C -->|PortAudio Recording Buffer| D[Deepgram WebSocket STT]
+    D -->|Real-Time Transcribed Text| C
+    C -->|Interpreted Speech Transcript| E(Gemini Flash LLM Engine)
+    E -->|Context-Constrained Prompting| F(Deepgram REST Aura TTS)
+    F -->|Professional Streamed Audio Packets| G(Audio Output Queue)
+    G -->|Continuous Playback Thread| H[Speaker Playback Router]
+    H -->|Immediate Vocal Output| I[Prospect Voice Channel]
+    I -->|Audio Hot-Interrupt Trigger| J[PortAudio Interceptor]
+    J -->|Instantly Clears Queues & Mutes Playback| B
+    
+    style A fill:#4D96FF,stroke:#333,stroke-width:2px,color:#fff
+    style B fill:#FF8E53,stroke:#333,stroke-width:2px,color:#fff
+    style E fill:#FF6B6B,stroke:#333,stroke-width:2px,color:#fff
+    style J fill:#00FF66,stroke:#333,stroke-width:2px,color:#000
 ```
 
 ---
