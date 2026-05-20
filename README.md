@@ -6,6 +6,27 @@ Extract transcripts from video files in **Urdu**, **English**, and 90+ other lan
 
 **Now with a Streamlit GUI and YouTube support!** 🎬🌐
 
+## 🔄 Architecture & Flow Diagram
+
+The following flow diagram illustrates how the transcription process works from input to final output:
+
+```mermaid
+graph TD
+    A([Input: Local Video or YouTube URL]) --> B{Streamlit GUI / CLI}
+    B --> C[Download Video if YouTube]
+    B --> D[Process Local File]
+    C --> E[Extract Audio via FFmpeg]
+    D --> E
+    E --> F[OpenAI Whisper via faster-whisper]
+    F --> G{Options: Model, Device, Language}
+    G --> H[Transcription Engine]
+    H --> I[Generate Transcripts]
+    I --> J[TXT]
+    I --> K[SRT / VTT]
+    I --> L[JSON]
+    I --> M[Markdown]
+```
+
 ## Setup
 
 1. Install ffmpeg (required for audio extraction):
