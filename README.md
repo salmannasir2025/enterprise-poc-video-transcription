@@ -1,8 +1,5 @@
 # 🎬 OmniTranscript Pro: Local Multilingual Video Intelligence Pipeline
 
-<div align="center">
-  <img src="logo.png" alt="Company Logo" width="300"/>
-</div>
 
 **On-Premise. Zero Cloud Leakage. High-Performance Academic & Enterprise Transcription.**
 

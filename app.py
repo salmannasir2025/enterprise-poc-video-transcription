@@ -56,6 +56,8 @@ def find_video_files(directory: str) -> list:
 
 
 def main():
+    if os.path.exists("logo.png"):
+        st.image("logo.png", width=300)
     st.title("🎬 Video Transcription Tool")
     st.markdown("Extract transcripts from videos in **Urdu**, **English**, and 90+ other languages.")
     st.markdown("🌐 **Now with YouTube support!** Just paste a YouTube URL and get your transcript.")
