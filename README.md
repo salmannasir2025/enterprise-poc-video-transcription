@@ -15,22 +15,20 @@ The system completely isolates raw audio demuxing from the AI computation framew
 
 ```mermaid
 graph TD
-    A[PyQt6 UI Panel] -->|Operator Params & Control Signal| B(Voice Orchestration Engine)
-    B -->|Asynchronous Event Loop| C(Live Microphone Input)
-    C -->|PortAudio Recording Buffer| D[Deepgram WebSocket STT]
-    D -->|Real-Time Transcribed Text| C
-    C -->|Interpreted Speech Transcript| E(Gemini Flash LLM Engine)
-    E -->|Context-Constrained Prompting| F(Deepgram REST Aura TTS)
-    F -->|Professional Streamed Audio Packets| G(Audio Output Queue)
-    G -->|Continuous Playback Thread| H[Speaker Playback Router]
-    H -->|Immediate Vocal Output| I[Prospect Voice Channel]
-    I -->|Audio Hot-Interrupt Trigger| J[PortAudio Interceptor]
-    J -->|Instantly Clears Queues & Mutes Playback| B
+    A[Streamlit Web UI / CLI] -->|Input Selection & Settings| B{Input Source Resolver}
+    B -->|Local Video File| C(File System Loader)
+    B -->|Online URL| D[yt-dlp Video Downloader]
+    D -->|Downloaded Media| C
+    C -->|Raw Media Object| E(FFmpeg Audio Demuxer)
+    E -->|Isolated 16kHz Audio Layer| F[faster-whisper Engine]
+    F -->|Optimized CTranslate2 Inference| G(Transcription Event Loop)
+    G -->|Raw Text & Timestamps| H[Multi-Format Serializer]
+    H -->|Structured Output Generation| I[.txt / .srt / .vtt / .md / .json]
     
     style A fill:#4D96FF,stroke:#333,stroke-width:2px,color:#fff
     style B fill:#FF8E53,stroke:#333,stroke-width:2px,color:#fff
-    style E fill:#FF6B6B,stroke:#333,stroke-width:2px,color:#fff
-    style J fill:#00FF66,stroke:#333,stroke-width:2px,color:#000
+    style F fill:#FF6B6B,stroke:#333,stroke-width:2px,color:#fff
+    style I fill:#00FF66,stroke:#333,stroke-width:2px,color:#000
 ```
 
 ---
