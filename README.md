@@ -128,3 +128,14 @@ This project is open-sourced under the terms of the standard **MIT License**. It
 
 * **Developer & Corporate Immunity:** This software is provided "as is", without warranty of any kind. ABT PLUS LLC (Automated Business Technologies) assumes zero operational or financial liability for how third-party individuals configure, deploy, or utilize this script framework.
 * **Third-Party Terms:** Users bear sole individual responsibility for ensuring that external video links, web assets, and multimedia components processed through this local pipeline comply with target platform content terms of service and regional copyrights.
+
+---
+
+## 📬 Contact & Corporate Information
+
+| | |
+| --- | --- |
+| **Organization** | ABT PLUS LLC (Automated Business Technologies) |
+| **Website** | [www.abtplusllc.com](https://www.abtplusllc.com) |
+| **Support** | [support@abtplusllc.com](mailto:support@abtplusllc.com) |
+| **License** | MIT — Open Source |
