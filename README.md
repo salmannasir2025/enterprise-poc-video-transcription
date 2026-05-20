@@ -1,130 +1,119 @@
-# Video Transcription Tool
+# 🎬 OmniTranscript Pro: Local Multilingual Video Intelligence Pipeline
 
-this is enterprise level proof of concept model, and its working, lincese MIT allowed, but for any commercial activity need permission from me.
+**On-Premise. Zero Cloud Leakage. High-Performance Academic & Enterprise Transcription.**
 
-Extract transcripts from video files in **Urdu**, **English**, and 90+ other languages using OpenAI Whisper (via `faster-whisper`).
+OmniTranscript Pro is an elite, privacy-first speech-to-text proof-of-concept (PoC) designed for modern educators, researchers, academic institutions, and content production teams who process vast libraries of video materials daily. 
 
-**Now with a Streamlit GUI and YouTube support!** 🎬🌐
+By utilizing local hardware optimization and an asynchronous execution loop, OmniTranscript Pro converts long lectures, webinars, and YouTube videos into perfectly structured, time-stamped learning assets—completely removing the ongoing subscription fees and privacy vulnerabilities of third-party SaaS cloud platforms.
 
-## 🔄 Architecture & Flow Diagram
+---
 
-The following flow diagram illustrates how the transcription process works from input to final output:
+## 📊 Architectural Workflow & System Topology
 
-```mermaid
-graph TD
-    A([Input: Local Video or YouTube URL]) --> B{Streamlit GUI / CLI}
-    B --> C[Download Video if YouTube]
-    B --> D[Process Local File]
-    C --> E[Extract Audio via FFmpeg]
-    D --> E
-    E --> F[OpenAI Whisper via faster-whisper]
-    F --> G{Options: Model, Device, Language}
-    G --> H[Transcription Engine]
-    H --> I[Generate Transcripts]
-    I --> J[TXT]
-    I --> K[SRT / VTT]
-    I --> L[JSON]
-    I --> M[Markdown]
+The system completely isolates raw audio demuxing from the AI computation framework, enabling smooth background worker execution and local server scalability.
+
+```text
+   [ Input Layer ]         --->          [ Core Pipeline Engine ]          --->      [ Multi-Format Serialization ]
+(Local Video File / YouTube URL)          (yt-dlp Streamer + FFmpeg Demux)             (.txt / .srt / .vtt / .md / .json)
+|                                       |                                                |
+v                                       v                                                v
+Handled via Streamlit UX                 Isolated 16kHz Audio Layer                    Primes Searchable Vector Assets
 ```
 
-## Setup
+---
 
-1. Install ffmpeg (required for audio extraction):
-   ```bash
-   # macOS
-   brew install ffmpeg
+## ⚡ Key Capabilities for Educationists & Industry Leaders
 
-   # Ubuntu/Debian
-   sudo apt install ffmpeg
-   ```
+* **🔒 100% On-Premise Data Sovereignty:** Research data, internal academic recordings, and pre-release media content remain entirely in your system RAM and local disk storage. Zero data packets leak to third-party cloud aggregators, meeting strict compliance and institutional privacy mandates.
+* **🌍 True Multilingual Subtitling (90+ Languages):** Engineered with absolute precision for mixed-language lecture capture (including full native support for English, Urdu, Hindi, and 90+ others), seamlessly matching multi-speaker audio matrices.
+* **📈 Optimized Local Compute Architecture:** Powered by `faster-whisper` on top of a CTranslate2 engine layout. It delivers up to 4x transcription processing speeds over standard implementation models, running brilliantly on local Linux workstations or legacy desktop setups.
+* **🎬 Instant YouTube & Media Extraction:** Features direct integration hooks with `yt-dlp` to capture web lecture videos, bypass transport layer bottlenecks, and immediately feed the audio arrays straight to the transcription engine loop.
 
-2. Install Python dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+---
 
-## Usage (GUI - Recommended)
+## 🛠️ Technical Highlight Mechanics
 
-Launch the browser-based GUI with one command:
+* **Asynchronous Thread Processing:** The system separates user interface render states from background transcription threads, preventing Streamlit web-view freeze-ups during extended multi-hour file loops.
+* **Automated Linux Desktop Launchers:** Complete with modular bash scripts (`start_transcription_gui.sh`, `launcher.py`) and standard `.desktop` shortcuts, allowing non-technical educators to initiate the pipeline with a single desktop double-click.
+* **Multi-Format Matrix Serialization:** Instantly outputs five distinct, synchronized database and document layouts per operation:
+  * **`.md` (Markdown):** Tailor-made for educators and students, structuring long lectures with precise time-stamp headings.
+  * **`.srt` & `.vtt`:** Production-ready subtitle formats for immediate video integration.
+  * **`.txt`:** Clean raw textual strings perfect for training internal AI knowledge base embeddings.
 
+---
+
+## 🚀 Environment Setup & One-Click Launch
+
+This pipeline operates natively in local environments with automated process binding handlers.
+
+### 1. System Dependencies (Core Media Binaries)
+Ensure `ffmpeg` is available on your local system path to handle high-fidelity audio extraction:
 ```bash
-./launch_gui.sh
-# or on Windows:
-python -m streamlit run app.py
+# macOS
+brew install ffmpeg
+
+# Linux (Ubuntu/Debian)
+sudo apt update && sudo apt install ffmpeg -y
 ```
 
-The GUI provides:
-- **File picker** — select video via path or upload
-- **Output directory selector** — choose where to save
-- **Format checkboxes** — TXT, SRT, VTT, JSON, **Markdown**
-- **Model dropdown** — all Whisper model sizes
-- **Language input** — auto-detect or specify (ur, en, hi...)
-- **Real-time progress bar** — track transcription progress
-- **Download buttons** — get your files instantly
-
-## Usage (CLI)
+### 2. Dependency Ingestion
+Initialize your python virtual workspace environment and install core project packages:
 
 ```bash
-# Basic usage (auto-detects language, saves txt + srt)
-python transcribe.py "video.mp4"
-
-# Transcribe a YouTube video directly
-python transcribe.py "https://youtube.com/watch?v=..." -o ./output
-
-# Specify language explicitly (e.g., Urdu)
-python transcribe.py "video.mp4" -l ur --verbose
-
-# English with best accuracy
-python transcribe.py "video.mp4" -l en --model large-v3 -v
-
-# Custom output formats (now includes Markdown!)
-python transcribe.py "video.mp4" -f txt md json srt
-
-# All options
-python transcribe.py "video.mp4" -o ./output --model large-v3 -l ur --device cpu --compute int8 -f srt vtt -v
+pip install -r requirements.txt
 ```
 
-## Output Formats
-
-| Format | Extension | Description |
-|--------|-----------|-------------|
-| Plain Text | `.txt` | Clean transcript, one sentence per line |
-| Subtitles | `.srt` | Standard subtitle format with timestamps |
-| WebVTT | `.vtt` | HTML5 video captions format |
-| JSON | `.json` | Full data with timestamps and confidence scores |
-| **Markdown** | `.md` | Formatted transcript with timestamps as headings |
-
-## Options
-**OR YouTube URL** 
-| Flag | Description |
-|------|-------------|
-| `video` | Path to input video |
-| `-o, --output` | Output directory (default: `transcripts/`) |
-| `--model` | Model size: `tiny` → `large-v3`. Larger = more accurate, slower. |
-| `-l, --language` | Language code: `ur` (Urdu), `en` (English), `hi` (Hindi). Auto-detected if omitted. |
-| `--device` | `cpu`, `cuda`, or `auto` |
-| `--compute` | `float16`, `int8`, `int8_float16`, or `auto` |
-| `-f, --formats` | Output formats: `txt`, `srt`, `vtt`, `json`, `md` |
-| `-v, --verbose` | Show progress |
-
-## Model Recommendations
-
-| Scenario | Model |
-|-----------|-------|
-| Quick tests / CPU only | `base` or `small` |
-| Balanced quality/speed | `medium` |
-| Best accuracy | `large-v3` |
-| English-only, fast | `base.en` or `small.en` |
-
-## Transcribe All Videos in a Folder
+### 3. Execution Interface (GUI - Recommended)
+Simply execute the Python wrapper launcher or use the native Linux Desktop icon:
 
 ```bash
+./launcher.py
+```
+The system controller automatically evaluates running server port configurations, initializes a background headless instance, and routes your default web browser dashboard directly to: `http://localhost:8501`
+
+---
+
+## 💻 Technical CLI Controls (Power User Automation)
+For automated bulk processing or remote terminal access, run the core engine directly:
+
+```bash
+# Basic Automated Extraction (Auto-detects speech language)
+python transcribe.py "lecture_recording.mp4"
+
+# Direct URL Lecture Processing & Custom Target Output Directories
+python transcribe.py "https://youtube.com/watch?v=..." -o ./transcripts/
+
+# High-Accuracy English Research Processing with Verbose Loop Logs
+python transcribe.py "seminar.mp4" -l en --model large-v3 --verbose
+
+# Bulk Folder Scripting (Transcribe every video file in a single folder)
 for f in *.mp4; do python transcribe.py "$f" -v; done
 ```
 
-## ⚖️ Open-Source Disclaimer & Educational Boundary
+---
 
-This repository is open-sourced under the terms of the standard **MIT License**. It is a technical Proof of Concept (PoC) engineered strictly for educational research, study accessibility, and sandbox testing.
+## ⚙️ Model Framework Configurations
 
-* **Operational Immunity:** This software is provided "as is", without warranty of any kind. ABT PLUS LLC (Automated Business Technologies) assumes zero liability or operational tracing responsibility for how third-party individuals deploy, configure, or utilize this script.
-* **Third-Party Terms:** Users bear sole individual responsibility for ensuring that the video links, assets, and media components processed through this open-source local pipeline conform to target platform policies and content distribution frameworks.
+| Execution Target Profile | Optimal AI Model Choice | Speed vs. Resource Profile |
+| --- | --- | --- |
+| Rapid Testing / Standard Local Laptops | `base` or `small` | Extremely fast processing, low RAM usage |
+| Balanced Production / Academic Research | `medium` | Optimal balance of speech accuracy & speed |
+| Elite Multi-Speaker Publications | `large-v3` | Highest precision translation, requires high VRAM |
+| Pure English Core Material | `base.en` or `small.en` | Stripped down language model size, highly efficient |
+
+---
+
+## 🤝 Showcase Architectural Proof of Concept
+This project represents expert-level technical proficiency in:
+* Decoupled backend-to-frontend thread event streaming
+* Highly optimized C-level neural network inference execution
+* Persistent Linux application process automation wrappers
+* Clean corporate tool interface visualization
+
+---
+
+## ⚖️ Open-Source Academic Licensing & Disclaimer
+This project is open-sourced under the terms of the standard **MIT License**. It is an architectural Proof of Concept (PoC) engineered strictly for technical study, accessibility enhancement, and sandbox testing.
+
+* **Developer & Corporate Immunity:** This software is provided "as is", without warranty of any kind. ABT PLUS LLC (Automated Business Technologies) assumes zero operational or financial liability for how third-party individuals configure, deploy, or utilize this script framework.
+* **Third-Party Terms:** Users bear sole individual responsibility for ensuring that external video links, web assets, and multimedia components processed through this local pipeline comply with target platform content terms of service and regional copyrights.
